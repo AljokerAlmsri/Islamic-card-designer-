@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المصمم الإسلامي المحترف | بطاقات، أحاديث، وآيات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&family=Noto+Naskh+Arabic:wght@400;700&family=Zain:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-amiri { font-family: 'Amiri', serif; }
+        .font-naskh { font-family: 'Noto Naskh Arabic', serif; }
+        .font-zain { font-family: 'Zain', sans-serif; }
+        
+        /* تحسين دعم النصوص العربية ومنع تقطعها بشكل نهائي */
+        * {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-variant-ligatures: common-ligatures;
+            letter-spacing: 0 !important;
+            word-spacing: 0 !important;
+        }
+
+        /* إخفاء أي تدوير للحواف في كامل التطبيق */
+        .no-round { border-radius: 0px !important; }
+
+        .card-shadow {
+            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.35);
+        }
+        
+        /* الأنماط اللونية الملكية */
+        .grad-emerald { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); }
+        .grad-navy { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .grad-maroon { background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%); }
+        .grad-gold { background: linear-gradient(135deg, #78350f 0%, #92400e 100%); }
+        .grad-onyx { background: linear-gradient(135deg, #09090b 0%, #18181b 100%); }
+        .grad-royal { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); }
+        .grad-lavender { background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%); }
+        .grad-forest { background: linear-gradient(135deg, #052e16 0%, #064e3b 100%); }
+        .grad-sepia { background: linear-gradient(135deg, #431407 0%, #78350f 100%); }
+        .grad-slate { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+        .grad-ruby { background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%); }
+        .grad-ocean { background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "html2canvas": "https://esm.sh/html2canvas@1.4.1",
+    "@vercel/og": "https://esm.sh/@vercel/og@^0.8.6",
+    "next/": "https://esm.sh/next@^16.1.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
