@@ -1,41 +1,32 @@
 
 import { ImageResponse } from '@vercel/og';
-import { NextRequest } from 'next/server';
 
 export const config = {
   runtime: 'edge',
 };
 
-export default async function handler(req: NextRequest) {
+export default async function handler(req: Request) {
   try {
     let data: any = {};
 
-    // التحقق من نوع الطلب
+    // ط¯ط¹ظ… ط§ط³طھظ„ط§ظ… ط§ظ„ط¨ظٹط§ظ†ط§طھ ط¹ط¨ط± POST (JSON Body) ظˆظ‡ظˆ ط§ظ„ظ…ط·ظ„ظˆط¨ ظ„ظ€ n8n
     if (req.method === 'POST') {
       try {
         data = await req.json();
       } catch (e) {
-        console.error("Error parsing JSON body", e);
+        return new Response(JSON.stringify({ error: "Invalid JSON body" }), { 
+          status: 400, 
+          headers: { 'Content-Type': 'application/json' } 
+        });
       }
     } else {
-      // دعم GET للمعاينة السريعة
+      // ط§ط³طھظ…ط±ط§ط± ط¯ط¹ظ… GET ظ„ظ„ظ…ط¹ط§ظٹظ†ط© ط§ظ„ط³ط±ظٹط¹ط© ط¹ط¨ط± ط§ظ„ظ…طھطµظپط­
       const { searchParams } = new URL(req.url);
-      data = {
-        text: searchParams.get('text'),
-        explanation: searchParams.get('explanation'),
-        source: searchParams.get('source'),
-        user: searchParams.get('user'),
-        theme: searchParams.get('theme'),
-        ratio: searchParams.get('ratio'),
-        mode: searchParams.get('mode'),
-        size: searchParams.get('size'),
-        shadow: searchParams.get('shadow'),
-        pattern: searchParams.get('pattern'),
-      };
+      data = Object.fromEntries(searchParams.entries());
     }
 
-    // تعيين القيم مع وجود قيم افتراضية
-    const text = data.text || 'نص افتراضي';
+    // طھط¹ظٹظٹظ† ط§ظ„ظ‚ظٹظ… ط§ظ„ط§ظپطھط±ط§ط¶ظٹط© ط¥ط°ط§ ظ†ظ‚طµطھ ط£ظٹ ط¨ظٹط§ظ†ط§طھ
+    const text = data.text || 'ط£ط¯ط®ظ„ ط§ظ„ظ†طµ ظ‡ظ†ط§';
     const explanation = data.explanation || '';
     const source = data.source || '';
     const user = data.user || 'username';
@@ -84,6 +75,7 @@ export default async function handler(req: NextRequest) {
             position: 'relative',
           }}
         >
+          {/* ط§ظ„ط·ط¨ظ‚ط§طھ ط§ظ„ط®ظ„ظپظٹط© */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.4, backgroundColor: 'black' }} />
           <div style={{ 
             position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
@@ -92,16 +84,18 @@ export default async function handler(req: NextRequest) {
             backgroundSize: '50px 50px' 
           }} />
           
+          {/*Header */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10, width: '100%' }}>
             {mode === 'quran' && (
-              <div style={{ fontSize: '70px', color: '#f59e0b', marginBottom: '20px', fontFamily: 'serif' }}>﷽</div>
+              <div style={{ fontSize: '70px', color: '#f59e0b', marginBottom: '20px' }}>ï·½</div>
             )}
             {mode === 'hadith' && (
-               <div style={{ color: '#f59e0b', fontSize: '26px', letterSpacing: '8px', marginBottom: '20px', fontWeight: 'bold' }}>قَال رَسُول اللَّه ﷺ</div>
+               <div style={{ color: '#f59e0b', fontSize: '26px', letterSpacing: '8px', marginBottom: '20px', fontWeight: 'bold' }}>ظ‚ظژط§ظ„ ط±ظژط³ظڈظˆظ„ ط§ظ„ظ„ظژظ‘ظ‡ ï·؛</div>
             )}
             <div style={{ height: '1px', width: '250px', backgroundColor: 'rgba(255,255,255,0.15)' }} />
           </div>
 
+          {/* Body Content */}
           <div style={{ 
             display: 'flex', 
             flexDirection: 'column', 
@@ -110,7 +104,6 @@ export default async function handler(req: NextRequest) {
             justifyContent: 'center', 
             width: '100%', 
             zIndex: 10,
-            padding: '40px 0'
           }}>
             <p style={{ 
               fontSize: `${fontSize * 1.5}px`, 
@@ -124,7 +117,8 @@ export default async function handler(req: NextRequest) {
             }}>
               {text}
             </p>
-            {explanation && (
+            {/* ط§ظ„ط´ط±ط­ ظٹط¸ظ‡ط± ظپظ‚ط· ط¥ط°ط§ ظƒط§ظ† ظ‡ظ†ط§ظƒ ظ†طµ */}
+            {explanation && explanation.trim() !== '' && (
               <p style={{
                 fontSize: `${fontSize * 0.6}px`,
                 color: 'rgba(255,255,255,0.85)',
@@ -141,6 +135,7 @@ export default async function handler(req: NextRequest) {
             )}
           </div>
 
+          {/* Footer */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', zIndex: 10 }}>
             {source && (
               <div style={{ 
@@ -181,6 +176,9 @@ export default async function handler(req: NextRequest) {
       { width, height },
     );
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ error: e.message }), { 
+      status: 500, 
+      headers: { 'Content-Type': 'application/json' } 
+    });
   }
-}
+          }
